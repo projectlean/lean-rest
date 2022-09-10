@@ -49,8 +49,14 @@ public class LeanUtil {
 
     private String presentationsPath;
 
+    private List<LeanPresentation> presentationList;
+    private Map<String, List<LeanRenderPage>> presentationRenderPages;
+
 
     public LeanUtil(){
+        presentationList = new ArrayList<LeanPresentation>();
+        presentationRenderPages = new HashMap<String, List<LeanRenderPage>>();
+
         loggingObject = new LoggingObject("Lean Rest");
         log = new LogChannel("Lean Rest Server");
         try{
@@ -87,8 +93,11 @@ public class LeanUtil {
             dbConnSerializer = metadataProvider.getSerializer(LeanDatabaseConnection.class);
             themeSerializer = metadataProvider.getSerializer(LeanTheme.class);
 
+            // prepare sample presentations
+            createConnections();
             loadSamples();
             createTestThemes();
+
         }catch(LeanException e){
             log.logError("Error while starting Lean server: ", e);
         }catch(HopException e){
@@ -107,40 +116,41 @@ public class LeanUtil {
         return metadataProvider;
     }
 
-    public List<String> getPresentationNames(){
+    public List<String> getPresentationNames() throws HopException, LeanException {
         return presentationNames;
     }
 
-    public String getPresentationSVG(String presentationName, int pageNumber) throws HopException, LeanException {
-        log.logBasic("Loading presentation " + presentationName);
-        presentationName = presentationName.replace("%20", " ");
-
+    private List<LeanRenderPage> renderPresentation(String presentationName) throws LeanException, HopException {
         LeanPresentation presentation = presentationSerializer.load(presentationName);
-
-        if (StringUtils.isEmpty(presentation.getDefaultThemeName())) {
-            LeanTheme theme = LeanTheme.getDefault();
-            if (presentation.getThemes().size() > 0) {
-                if (StringUtils.isEmpty(presentation.getThemes().get(0).getName())) {
-                    presentation.getThemes().remove(0);
-                }
-            }
-            presentation.getThemes().add(theme);
-            presentation.setDefaultThemeName(theme.getName());
-        }
-
-        //TODO: don't re-render presentations over and over
         IRenderContext renderContext = new PresentationRenderContext(presentation);
         IDataContext dataContext = new PresentationDataContext(presentation, metadataProvider);
         LeanLayoutResults layout = presentation.doLayout(loggingObject, renderContext, metadataProvider, Collections.emptyList());
         presentation.render(layout, metadataProvider);
         List<LeanRenderPage> renderPages = layout.getRenderPages();
+        return renderPages;
+    }
+    public String getPresentationSVG(String presentationName, int pageNumber) throws HopException, LeanException {
+        log.logBasic("Loading presentation " + presentationName);
 
+        List<LeanRenderPage> renderPages = renderPresentation(presentationName);
         return renderPages.get(pageNumber).getSvgXml();
 
     }
 
+
+    public List<String> getComponentsAt(String presentationName, int pageNb, String posXY) throws HopException, LeanException{
+        int posX = Integer.valueOf(posXY.split(",")[0]);
+        int posY = Integer.valueOf(posXY.split(",")[1]);
+
+        List<LeanRenderPage> renderPages = renderPresentation(presentationName);
+        LeanRenderPage renderPage = renderPages.get(pageNb);
+        List<String> componentNameList = renderPage.lookupComponentName(posX, posY);
+
+        return componentNameList;
+    }
+
+
     private void loadSamples() throws HopException{
-        createConnections();
         File presDir = new File(presentationsPath);
         log.logDetailed("presDir: " + presDir.getAbsolutePath());
         File[] presFiles = presDir.listFiles(new FilenameFilter() {
@@ -156,9 +166,24 @@ public class LeanUtil {
                 try {
                     FileInputStream inputStream = new FileInputStream(presFile);
                     String presJSON = IOUtils.toString(inputStream);
-                    LeanPresentation pres = new LeanPresentation().fromJsonString(presJSON);
-                    presentationSerializer.save(pres);
-                    presentationNames.add(pres.getName());
+                    LeanPresentation presentation= new LeanPresentation().fromJsonString(presJSON);
+                    if(!presentationList.contains(presentation)){
+                        presentationList.add(presentation);
+                    }
+
+                    if (StringUtils.isEmpty(presentation.getDefaultThemeName())) {
+                        LeanTheme theme = LeanTheme.getDefault();
+                        if (presentation.getThemes().size() > 0) {
+                            if (StringUtils.isEmpty(presentation.getThemes().get(0).getName())) {
+                                presentation.getThemes().remove(0);
+                            }
+                        }
+                        presentation.getThemes().add(theme);
+                        presentation.setDefaultThemeName(theme.getName());
+                    }
+
+                    presentationSerializer.save(presentation);
+                    presentationNames.add(presentation.getName());
                 }catch(Exception e){
                     log.logError("Error: " + e.getMessage());
                     e.printStackTrace();
@@ -174,7 +199,6 @@ public class LeanUtil {
         String CONNECTOR_STEEL_WHEELS_NAME = "SteelWheels";
         LeanDatabaseConnection connection2 = new LeanDatabaseConnection("logging", "POSTGRESQL", "localhost", "5432",
                 "logging", "postgres", "postgres");
-
         String h2DatabaseName = System.getProperty("java.io.tmpdir") + File.separator + CONNECTOR_STEEL_WHEELS_NAME;
 
         LeanDatabaseConnection swConnection = new LeanDatabaseConnection(CONNECTOR_STEEL_WHEELS_NAME,  "H2", null, null, h2DatabaseName , null, null);

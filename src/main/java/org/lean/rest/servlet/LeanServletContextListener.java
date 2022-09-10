@@ -1,7 +1,5 @@
 package org.lean.rest.servlet;
 
-//import org.lean.rest.LeanUtil;
-
 import org.lean.rest.LeanUtil;
 
 import javax.servlet.ServletContextEvent;
