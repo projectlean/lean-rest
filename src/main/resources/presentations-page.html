@@ -1,0 +1,294 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <style>
+        * {
+            horiz-align: left;
+            vertical-align: top;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        /* Add a black background color to the top navigation */
+        .topNavigation {
+            background-color: #ccd;
+            overflow: hidden;
+        }
+
+        /* Style the links inside the navigation bar */
+        .topNavigation a {
+            float: left;
+            color: #222;
+            text-align: center;
+            padding: 8px 10px;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* Change the color of links on hover */
+        .topNavigation a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Add a color to the active/current link */
+        .topNavigation a.active {
+            background-color: #ddf;
+            color: #111;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
+    </script>
+</head>
+<title>Presentation %PRESENTATION_NAME% page %PAGE_NUMBER%/%PAGE_COUNT%</title>
+<body>
+<div class="topNavigation">
+    <a class="active" href="/lean/render/main">Home</a>
+    <a href="#about">About</a>
+</div>
+<canvas
+        id="svgCanvas"
+        width="100%"
+        height="100%"
+></canvas>
+
+<script>
+    let canvas;
+    let gc;
+    let rect;
+    let image;
+    let lookupResults = [];
+    let scale;
+    let zoom = 1.0;
+
+    $(document).ready(installHandlers());
+
+    function installHandlers() {
+        canvas = document.getElementById("svgCanvas");
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+        gc = canvas.getContext("2d");
+        rect = canvas.getBoundingClientRect();
+
+        initialize();
+        loadDrawSvg();
+
+        // Track the mouse movements and clicks
+        //
+        let element = $("#svgCanvas");
+
+        element.mousemove((e) => {
+            handleMouseMoveActions(e);
+        });
+        element.mousedown((e) => {
+            if (e.button === 0) {
+                handleMouseLeftClickActions(e);
+            }
+        });
+    }
+
+    // Initialize the lean canvas, make sure it's set up for full resolution
+    //
+    function initialize() {
+        // Reduce the size of the canvas to always fit on screen and never scroll
+        //
+        let w = window.innerHeight;
+        let y = canvas.getBoundingClientRect().y;
+        rect.height = w-y;
+
+        // Scale to full resolution, not the 72dpi stuff
+        //
+        canvas.width = rect.width * devicePixelRatio;
+        canvas.height = rect.height * devicePixelRatio;
+        gc.scale(devicePixelRatio, devicePixelRatio);
+        canvas.style.width = rect.width + "px";
+        canvas.style.height = rect.height + "px";
+        console.log("canvas size: " + canvas.width + "x" + canvas.height + ", DP-Ratio=" + devicePixelRatio);
+    }
+
+    function loadDrawSvg() {
+        image = new Image();
+        image.onload = function () {
+            drawSvg();
+        }
+        image.src = "/lean/render/page/%RENDER_ID%/SVG/%PAGE_NUMBER_0%/";
+    }
+
+    function drawSvg() {
+        // Let's see how much room we have available on screen.
+        //
+        let scaleX = zoom * canvas.width / (image.width * devicePixelRatio);
+        let scaleY = zoom * canvas.height / (image.height * devicePixelRatio);
+        scale = Math.min(scaleX, scaleY, zoom);
+
+        console.log("dpr=" + devicePixelRatio + ", canvas=" + canvas.width + "x" + canvas.height + ", " +
+            "image=" + image.width + "x" + image.height + ", " +
+            "scaleX=" + scaleX + ", scaleY=" + scaleY + ", " +
+            "scale=" + scale);
+        gc.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * scale, image.height * scale);
+    }
+
+    function indicateClickPossibility(result) {
+        // Clear the canvas first
+        //
+        gc.fillStyle = '#ffffff';
+        gc.strokeStyle = '#ff0000';
+        gc.lineWidth = 2;
+        gc.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Redraw the image
+        //
+        drawSvg();
+
+        if (result.method != null
+            && result.found
+            && result.drawnItem != null) {
+
+            let geo = result.drawnItem.geometry;
+            // console.log("gc? " + (gc != null) + " geo: (" + geo.x + "," + geo.y + "," + geo.width + "x" + geo.height + ")");
+
+            // Draw a blue rectangle over the item we can click on
+            //
+            gc.fillStyle = "rgba(0,0,120,0.2)";
+            gc.fillRect(geo.x * scale + 1, geo.y * scale + 1, geo.width * scale - 2, geo.height * scale - 2);
+
+            // Show a hand cursor
+            $("#svgCanvas").css("cursor", "pointer");
+        } else {
+            // Show the default cursor
+            $("#svgCanvas").css("cursor", "default");
+        }
+    }
+
+    function checkPreviousLookup(x, y) {
+        for (let i = 0; i < lookupResults.length; i++) {
+            let result = lookupResults[i];
+            // See if x,y falls in a geometry
+            //
+            let geo = result.drawnItem.geometry;
+            if (x >= geo.x && y >= geo.y && x <= geo.x + geo.width && y <= geo.y + geo.height) {
+                return result;
+            }
+        }
+        return null;
+    }
+
+    function invalidMouseLocation(x, y) {
+        // Do we need to look up anything?
+        //
+        if (x < 0 || y < 0 || x > image.width || y > image.height) {
+            return true;
+        }
+        return false;
+    }
+
+    function handleMouseMoveActions(event) {
+        let x = correctScale(event.offsetX);
+        let y = correctScale(event.offsetY);
+
+        if (invalidMouseLocation(x, y)) {
+            return;
+        }
+
+        // First check the cache...
+        //
+        let result = checkPreviousLookup(x, y);
+        if (result != null) {
+            indicateClickPossibility(result);
+            return;
+        }
+
+        $.ajax({
+                url: "/lean/render/lookupActions/",
+                type: "POST",
+                data: JSON.stringify({
+                    "renderId": "%RENDER_ID%",
+                    "pageNumber": "%PAGE_NUMBER_0%",
+                    "x": x,
+                    "y": y
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    indicateClickPossibility(result);
+                    if (result.found && result.drawnItem != null && result.drawnItem.geometry != null) {
+                        lookupResults.push(result);
+                    }
+                }
+            }
+        );
+    }
+
+
+    function handleMouseLeftClickActions(event) {
+        let x = correctScale(event.offsetX);
+        let y = correctScale(event.offsetY);
+
+        if (invalidMouseLocation(x, y)) {
+            return;
+        }
+
+        let requestData = {
+            "renderId": "%RENDER_ID%",
+            "pageNumber": "%PAGE_NUMBER_0%",
+            "x": x,
+            "y": y
+        };
+
+        $.ajax({
+            url: "/lean/render/lookupActions/",
+            type: "POST",
+            data: JSON.stringify(requestData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                const method = result.method;
+                if (method != null && method.mouseClick) {
+                    // reset the cursor to default
+                    //
+                    $("#svgPage").css("cursor", "default");
+
+                    // Perform all the actions
+                    //
+                    const actions = result.actions;
+                    for (let i = 0; i < actions.length; i++) {
+                        let action = actions[i];
+                        if (action.actionType === "OPEN_PRESENTATION") {
+                            let presentationName = action.objectName;
+                            if (presentationName === null) {
+                                // Take the value of the string on which we clicked.
+                                presentationName = result.drawnItem.context.value;
+                            }
+                            if (presentationName !== null) {
+                                console.log("Open presentation: " + presentationName);
+
+                                openPresentation(presentationName);
+                            }
+                        }
+                    }
+                }
+            },
+            error: function (errorMessage) {
+                alert(errorMessage);
+            }
+        });
+    }
+
+    // Open the presentation with the given name
+    //
+    function openPresentation(presentationName) {
+        $.get("/lean/render/presentation/" + presentationName + "/", (renderId, status) => {
+            if (status === "success") {
+                // Open the first page.
+                window.open("/lean/render/page/" + renderId + "/HTML/0/", "_self");
+            }
+        });
+    }
+
+    function correctScale(value) {
+        return value / scale;
+    }
+
+</script>
+</body>
+</html>

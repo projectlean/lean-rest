@@ -1,0 +1,604 @@
+{
+  "name" : "grouped-composite-test",
+  "description" : "Group composite 8000 description",
+  "pages" : [ {
+    "pageNumber" : 1,
+    "width" : 1123,
+    "height" : 794,
+    "leftMargin" : 25,
+    "rightMargin" : 25,
+    "topMargin" : 25,
+    "bottomMargin" : 25,
+    "components" : [ {
+      "name" : "Group",
+      "layout" : {
+        "left" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "LEFT"
+        },
+        "right" : null,
+        "top" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "TOP"
+        },
+        "bottom" : null,
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanGroupComponent",
+        "sourceConnectorName" : "Sample Data",
+        "background" : false,
+        "border" : false,
+        "themeName" : "Default",
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "columnSelection" : [ {
+          "columnName" : "country",
+          "headerValue" : "Country",
+          "horizontalAlignment" : "LEFT",
+          "verticalAlignment" : "TOP",
+          "width" : 0,
+          "formatMask" : null,
+          "font" : null
+        } ],
+        "columnSorts" : [ {
+          "type" : "NATIVE_VALUE",
+          "ascending" : true,
+          "customOrder" : [ ]
+        } ],
+        "distinctSelection" : true,
+        "groupComponent" : {
+          "name" : "Composite1",
+          "layout" : {
+            "left" : {
+              "componentName" : null,
+              "percentage" : 0,
+              "offset" : 0,
+              "alignment" : "LEFT"
+            },
+            "right" : null,
+            "top" : {
+              "componentName" : null,
+              "percentage" : 0,
+              "offset" : 0,
+              "alignment" : "TOP"
+            },
+            "bottom" : null,
+            "referencedLayoutComponentNames" : [ ]
+          },
+          "component" : {
+            "pluginId" : "LeanCompositeComponent",
+            "sourceConnectorName" : null,
+            "background" : false,
+            "border" : false,
+            "themeName" : null,
+            "defaultFont" : null,
+            "defaultColor" : null,
+            "backGroundColor" : null,
+            "borderColor" : null,
+            "children" : [ {
+              "name" : "Label1",
+              "layout" : {
+                "left" : {
+                  "componentName" : null,
+                  "percentage" : 0,
+                  "offset" : 0,
+                  "alignment" : "LEFT"
+                },
+                "right" : null,
+                "top" : {
+                  "componentName" : null,
+                  "percentage" : 0,
+                  "offset" : 0,
+                  "alignment" : "TOP"
+                },
+                "bottom" : null,
+                "referencedLayoutComponentNames" : [ ]
+              },
+              "component" : {
+                "pluginId" : "LeanLabelComponent",
+                "sourceConnectorName" : null,
+                "background" : false,
+                "border" : true,
+                "themeName" : null,
+                "defaultFont" : {
+                  "fontName" : "Courier",
+                  "fontSize" : "48",
+                  "bold" : false,
+                  "italic" : false
+                },
+                "defaultColor" : {
+                  "r" : 0,
+                  "g" : 140,
+                  "b" : 194
+                },
+                "backGroundColor" : {
+                  "r" : 200,
+                  "g" : 200,
+                  "b" : 200
+                },
+                "borderColor" : {
+                  "r" : 240,
+                  "g" : 240,
+                  "b" : 240
+                },
+                "label" : "Country: ${country}",
+                "horizontalAlignment" : "CENTER",
+                "verticalAlignment" : "TOP",
+                "customHtml" : null,
+                "underline" : false
+              },
+              "shared" : false,
+              "rotation" : null,
+              "transparency" : null,
+              "clipSize" : null
+            }, {
+              "name" : "Crosstab1",
+              "layout" : {
+                "left" : {
+                  "componentName" : null,
+                  "percentage" : 0,
+                  "offset" : 0,
+                  "alignment" : "LEFT"
+                },
+                "right" : null,
+                "top" : {
+                  "componentName" : "Label1",
+                  "percentage" : 0,
+                  "offset" : 10,
+                  "alignment" : "BOTTOM"
+                },
+                "bottom" : null,
+                "referencedLayoutComponentNames" : [ "Label1" ]
+              },
+              "component" : {
+                "pluginId" : "LeanCrosstabComponent",
+                "sourceConnectorName" : "Sample Data",
+                "background" : false,
+                "border" : false,
+                "themeName" : null,
+                "defaultFont" : null,
+                "defaultColor" : null,
+                "backGroundColor" : null,
+                "borderColor" : null,
+                "horizontalDimensions" : [ {
+                  "columnName" : "color",
+                  "headerValue" : "Color",
+                  "horizontalAlignment" : "CENTER",
+                  "verticalAlignment" : "MIDDLE",
+                  "width" : 0,
+                  "formatMask" : null,
+                  "font" : null
+                }, {
+                  "columnName" : "important",
+                  "headerValue" : "?",
+                  "horizontalAlignment" : "CENTER",
+                  "verticalAlignment" : "MIDDLE",
+                  "width" : 0,
+                  "formatMask" : null,
+                  "font" : null
+                } ],
+                "verticalDimensions" : [ {
+                  "columnName" : "name",
+                  "headerValue" : "Customer",
+                  "horizontalAlignment" : "RIGHT",
+                  "verticalAlignment" : "MIDDLE",
+                  "width" : 0,
+                  "formatMask" : null,
+                  "font" : null
+                } ],
+                "facts" : [ {
+                  "columnName" : "random",
+                  "headerValue" : "Sum",
+                  "horizontalAlignment" : "RIGHT",
+                  "verticalAlignment" : "MIDDLE",
+                  "width" : 0,
+                  "formatMask" : "0.000",
+                  "font" : null,
+                  "aggregationMethod" : "SUM",
+                  "horizontalAggregation" : true,
+                  "horizontalAggregationHeader" : "Total Sum",
+                  "verticalAggregation" : false,
+                  "verticalAggregationHeader" : null,
+                  "headerHorizontalAlignment" : "CENTER",
+                  "headerVerticalAlignment" : "MIDDLE"
+                }, {
+                  "columnName" : "name",
+                  "headerValue" : "Count",
+                  "horizontalAlignment" : "RIGHT",
+                  "verticalAlignment" : "MIDDLE",
+                  "width" : 0,
+                  "formatMask" : "0",
+                  "font" : null,
+                  "aggregationMethod" : "COUNT",
+                  "horizontalAggregation" : true,
+                  "horizontalAggregationHeader" : "Total Count",
+                  "verticalAggregation" : false,
+                  "verticalAggregationHeader" : null,
+                  "headerHorizontalAlignment" : "CENTER",
+                  "headerVerticalAlignment" : "MIDDLE"
+                } ],
+                "showingHorizontalTotals" : true,
+                "showingVerticalTotals" : true,
+                "horizontalDimensionsFont" : null,
+                "horizontalDimensionsColor" : null,
+                "verticalDimensionsFont" : null,
+                "verticalDimensionsColor" : null,
+                "factsFont" : null,
+                "factsColor" : null,
+                "titleFont" : null,
+                "titleColor" : null,
+                "gridColor" : null,
+                "axisColor" : null,
+                "horizontalMargin" : 3,
+                "verticalMargin" : 2,
+                "evenHeights" : true,
+                "headerOnEveryPage" : true,
+                "showingHorizontalSubtotals" : false,
+                "showingVerticalSubtotals" : false
+              },
+              "shared" : false,
+              "rotation" : null,
+              "transparency" : null,
+              "clipSize" : null
+            } ]
+          },
+          "shared" : false,
+          "rotation" : null,
+          "transparency" : null,
+          "clipSize" : null
+        },
+        "verticalMargin" : 10
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    } ],
+    "header" : false,
+    "footer" : false
+  } ],
+  "header" : {
+    "pageNumber" : -1,
+    "width" : 1073,
+    "height" : 50,
+    "leftMargin" : 0,
+    "rightMargin" : 0,
+    "topMargin" : 0,
+    "bottomMargin" : 0,
+    "components" : [ {
+      "name" : "HeaderLabel",
+      "layout" : {
+        "left" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "CENTER"
+        },
+        "right" : null,
+        "top" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "TOP"
+        },
+        "bottom" : null,
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanLabelComponent",
+        "sourceConnectorName" : null,
+        "background" : false,
+        "border" : false,
+        "themeName" : null,
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "label" : "A group repeating a composite with a label and a crosstab, data filtering",
+        "horizontalAlignment" : "LEFT",
+        "verticalAlignment" : "TOP",
+        "customHtml" : null,
+        "underline" : false
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    }, {
+      "name" : "PresentationName",
+      "layout" : {
+        "left" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "LEFT"
+        },
+        "right" : null,
+        "top" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "TOP"
+        },
+        "bottom" : null,
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanLabelComponent",
+        "sourceConnectorName" : null,
+        "background" : false,
+        "border" : false,
+        "themeName" : null,
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "label" : "${PRESENTATION_NAME}",
+        "horizontalAlignment" : "LEFT",
+        "verticalAlignment" : "TOP",
+        "customHtml" : null,
+        "underline" : false
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    } ],
+    "header" : true,
+    "footer" : false
+  },
+  "footer" : {
+    "pageNumber" : -2,
+    "width" : 1073,
+    "height" : 25,
+    "leftMargin" : 0,
+    "rightMargin" : 0,
+    "topMargin" : 0,
+    "bottomMargin" : 0,
+    "components" : [ {
+      "name" : "FooterLabel",
+      "layout" : {
+        "left" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "LEFT"
+        },
+        "right" : null,
+        "top" : null,
+        "bottom" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "BOTTOM"
+        },
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanLabelComponent",
+        "sourceConnectorName" : null,
+        "background" : false,
+        "border" : false,
+        "themeName" : null,
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "label" : "Page #${PAGE_NUMBER}",
+        "horizontalAlignment" : "LEFT",
+        "verticalAlignment" : "TOP",
+        "customHtml" : null,
+        "underline" : false
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    }, {
+      "name" : "SystemDate",
+      "layout" : {
+        "left" : null,
+        "right" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "RIGHT"
+        },
+        "top" : null,
+        "bottom" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "BOTTOM"
+        },
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanLabelComponent",
+        "sourceConnectorName" : null,
+        "background" : false,
+        "border" : false,
+        "themeName" : null,
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "label" : "${SYSTEM_DATE}",
+        "horizontalAlignment" : "LEFT",
+        "verticalAlignment" : "TOP",
+        "customHtml" : null,
+        "underline" : false
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    }, {
+      "name" : "Logo",
+      "layout" : {
+        "left" : {
+          "componentName" : null,
+          "percentage" : 50,
+          "offset" : 0,
+          "alignment" : "LEFT"
+        },
+        "right" : null,
+        "top" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 10,
+          "alignment" : "TOP"
+        },
+        "bottom" : {
+          "componentName" : null,
+          "percentage" : 0,
+          "offset" : 0,
+          "alignment" : "BOTTOM"
+        },
+        "referencedLayoutComponentNames" : [ ]
+      },
+      "component" : {
+        "pluginId" : "LeanSvgComponent",
+        "sourceConnectorName" : null,
+        "background" : false,
+        "border" : true,
+        "themeName" : null,
+        "defaultFont" : null,
+        "defaultColor" : null,
+        "backGroundColor" : null,
+        "borderColor" : null,
+        "filename" : "lean-logo.svg",
+        "scaleType" : "MIN"
+      },
+      "shared" : false,
+      "rotation" : null,
+      "transparency" : null,
+      "clipSize" : null
+    } ],
+    "header" : false,
+    "footer" : true
+  },
+  "themes" : [ {
+    "name" : "Default",
+    "description" : "Default test theme scheme",
+    "colors" : [ {
+      "r" : 0,
+      "g" : 63,
+      "b" : 92
+    }, {
+      "r" : 47,
+      "g" : 75,
+      "b" : 124
+    }, {
+      "r" : 102,
+      "g" : 81,
+      "b" : 145
+    }, {
+      "r" : 160,
+      "g" : 81,
+      "b" : 149
+    }, {
+      "r" : 212,
+      "g" : 80,
+      "b" : 135
+    }, {
+      "r" : 249,
+      "g" : 93,
+      "b" : 106
+    }, {
+      "r" : 255,
+      "g" : 124,
+      "b" : 67
+    }, {
+      "r" : 255,
+      "g" : 166,
+      "b" : 0
+    } ],
+    "backgroundColor" : {
+      "r" : 255,
+      "g" : 255,
+      "b" : 255
+    },
+    "defaultColor" : {
+      "r" : 0,
+      "g" : 0,
+      "b" : 0
+    },
+    "defaultFont" : {
+      "fontName" : "Arial",
+      "fontSize" : "12",
+      "bold" : false,
+      "italic" : false
+    },
+    "borderColor" : {
+      "r" : 240,
+      "g" : 240,
+      "b" : 240
+    },
+    "horizontalDimensionsFont" : {
+      "fontName" : "Arial",
+      "fontSize" : "12",
+      "bold" : true,
+      "italic" : false
+    },
+    "horizontalDimensionsColor" : {
+      "r" : 0,
+      "g" : 0,
+      "b" : 0
+    },
+    "verticalDimensionsFont" : {
+      "fontName" : "Arial",
+      "fontSize" : "12",
+      "bold" : true,
+      "italic" : false
+    },
+    "verticalDimensionsColor" : {
+      "r" : 0,
+      "g" : 0,
+      "b" : 0
+    },
+    "factsFont" : {
+      "fontName" : "Hack",
+      "fontSize" : "12",
+      "bold" : false,
+      "italic" : false
+    },
+    "factsColor" : {
+      "r" : 0,
+      "g" : 0,
+      "b" : 0
+    },
+    "titleFont" : {
+      "fontName" : "Arial",
+      "fontSize" : "10",
+      "bold" : true,
+      "italic" : true
+    },
+    "titleColor" : {
+      "r" : 200,
+      "g" : 200,
+      "b" : 200
+    },
+    "axisColor" : {
+      "r" : 0,
+      "g" : 0,
+      "b" : 0
+    },
+    "gridColor" : {
+      "r" : 200,
+      "g" : 200,
+      "b" : 200
+    },
+    "shared" : false
+  } ],
+  "defaultThemeName" : "Default",
+  "connectors" : [],
+  "interactions" : [ ]
+}

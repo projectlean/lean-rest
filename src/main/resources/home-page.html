@@ -1,0 +1,29 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js">
+    </script>
+</head>
+<title>Welcome to the Lean cloud</title>
+<body>
+<script>
+    $(document).ready(function () {
+        // All this does is open the presentations list.
+        // It will become a more complicated dashboard later.
+        //
+        openPresentation("list-presentations");
+    });
+
+    // Open the presentation with the given name
+    //
+    function openPresentation(presentationName) {
+        $.get("/lean/render/presentation/" + presentationName + "/", (renderId, status) => {
+            if (status === "success") {
+                // Open the first page.
+                window.open("/lean/render/page/" + renderId + "/HTML/0/", "_self");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

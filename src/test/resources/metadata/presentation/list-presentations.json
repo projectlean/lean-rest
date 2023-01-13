@@ -1,0 +1,243 @@
+{
+  "themes": [
+    {
+      "shared": false,
+      "backgroundColor": {
+        "b": 255,
+        "r": 255,
+        "g": 255
+      },
+      "borderColor": {
+        "b": 240,
+        "r": 240,
+        "g": 240
+      },
+      "factsColor": {
+        "b": 0,
+        "r": 0,
+        "g": 0
+      },
+      "axisColor": {
+        "b": 0,
+        "r": 0,
+        "g": 0
+      },
+      "description": "Default test theme scheme",
+      "verticalDimensionsColor": {
+        "b": 0,
+        "r": 0,
+        "g": 0
+      },
+      "titleFont": {
+        "fontName": "Arial",
+        "fontSize": "10",
+        "bold": true,
+        "italic": true
+      },
+      "colors": [
+        {
+          "b": 92,
+          "r": 0,
+          "g": 63
+        },
+        {
+          "b": 124,
+          "r": 47,
+          "g": 75
+        },
+        {
+          "b": 145,
+          "r": 102,
+          "g": 81
+        },
+        {
+          "b": 149,
+          "r": 160,
+          "g": 81
+        },
+        {
+          "b": 135,
+          "r": 212,
+          "g": 80
+        },
+        {
+          "b": 106,
+          "r": 249,
+          "g": 93
+        },
+        {
+          "b": 67,
+          "r": 255,
+          "g": 124
+        },
+        {
+          "b": 0,
+          "r": 255,
+          "g": 166
+        }
+      ],
+      "factsFont": {
+        "fontName": "Hack",
+        "fontSize": "12",
+        "bold": false,
+        "italic": false
+      },
+      "defaultColor": {
+        "b": 0,
+        "r": 0,
+        "g": 0
+      },
+      "titleColor": {
+        "b": 200,
+        "r": 200,
+        "g": 200
+      },
+      "horizontalDimensionsFont": {
+        "fontName": "Arial",
+        "fontSize": "12",
+        "bold": true,
+        "italic": false
+      },
+      "gridColor": {
+        "b": 200,
+        "r": 200,
+        "g": 200
+      },
+      "name": "Default",
+      "verticalDimensionsFont": {
+        "fontName": "Arial",
+        "fontSize": "12",
+        "bold": true,
+        "italic": false
+      },
+      "horizontalDimensionsColor": {
+        "b": 0,
+        "r": 0,
+        "g": 0
+      },
+      "defaultFont": {
+        "fontName": "Arial",
+        "fontSize": "12",
+        "bold": false,
+        "italic": false
+      }
+    }
+  ],
+  "connectors": [],
+  "pages": [
+    {
+      "components": [
+        {
+          "layout": {
+            "top": {
+              "offset": 0,
+              "percentage": 0,
+              "alignment": "DEFAULT"
+            },
+            "left": {
+              "offset": 0,
+              "percentage": 0,
+              "alignment": "DEFAULT"
+            },
+            "bottom": {
+              "offset": 0,
+              "percentage": 100,
+              "alignment": "DEFAULT"
+            },
+            "right": {
+              "offset": 0,
+              "percentage": 100,
+              "alignment": "DEFAULT"
+            }
+          },
+          "shared": false,
+          "component": {
+            "LeanTableComponent": {
+              "border": false,
+              "columnSelection": [
+                {
+                  "horizontalAlignment": "LEFT",
+                  "width": 0,
+                  "headerValue": "Presentation name",
+                  "verticalAlignment": "MIDDLE",
+                  "columnName": "name"
+                },
+                {
+                  "horizontalAlignment": "LEFT",
+                  "width": 0,
+                  "headerValue": "Description",
+                  "verticalAlignment": "MIDDLE",
+                  "columnName": "description"
+                }
+              ],
+              "sourceConnectorName": "presentation-list-sorted",
+              "headerFont": {
+                "fontName": "Arial",
+                "fontSize": "12",
+                "bold": true,
+                "italic": false
+              },
+              "pluginId": "LeanTableComponent",
+              "verticalMargin": 2,
+              "headerOnEveryPage": false,
+              "backGroundColor": {
+                "b": 255,
+                "r": 255,
+                "g": 255
+              },
+              "evenHeights": true,
+              "background": true,
+              "header": true,
+              "horizontalMargin": 2,
+              "defaultFont": {
+                "fontName": "Arial",
+                "fontSize": "12",
+                "bold": false,
+                "italic": true
+              },
+              "headerBackGroundColor": {
+                "b": 255,
+                "r": 220,
+                "g": 220
+              }
+            }
+          },
+          "name": "list-presentations"
+        }
+      ],
+      "leftMargin": 25,
+      "pageNumber": 1,
+      "topMargin": 25,
+      "rightMargin": 25,
+      "footer": false,
+      "bottomMargin": 25,
+      "width": 1123,
+      "header": false,
+      "height": 794
+    }
+  ],
+  "defaultThemeName": "Default",
+  "name": "list-presentations",
+  "interactions": [
+    {
+      "method": {
+        "mouseClick": true,
+        "mouseDoubleClick": false
+      },
+      "location": {
+        "itemType": "ComponentItem",
+        "itemCategory": "Cell",
+        "componentName": "list-presentations",
+        "dimensionColumns": [
+          "name"
+        ],
+        "componentPluginId": "LeanTableComponent"
+      },
+      "actions": [
+        {
+          "actionType": "OPEN_PRESENTATION"
+        }
+      ]
+    }
+  ]
+}

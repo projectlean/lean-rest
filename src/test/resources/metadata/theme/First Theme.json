@@ -1,0 +1,53 @@
+{
+  "shared": false,
+  "borderColor": {
+    "b": 180,
+    "r": 180,
+    "g": 180
+  },
+  "titleFont": {
+    "fontName": "Arial",
+    "fontSize": "20",
+    "bold": true,
+    "italic": true
+  },
+  "colors": [
+    {
+      "b": 200,
+      "r": 255,
+      "g": 200
+    },
+    {
+      "b": 210,
+      "r": 250,
+      "g": 210
+    },
+    {
+      "b": 180,
+      "r": 180,
+      "g": 180
+    },
+    {
+      "b": 100,
+      "r": 200,
+      "g": 100
+    }
+  ],
+  "defaultColor": {
+    "b": 200,
+    "r": 255,
+    "g": 200
+  },
+  "titleColor": {
+    "b": 100,
+    "r": 200,
+    "g": 100
+  },
+  "name": "First Theme",
+  "defaultFont": {
+    "fontName": "Arial",
+    "fontSize": "14",
+    "bold": false,
+    "italic": false
+  }
+}

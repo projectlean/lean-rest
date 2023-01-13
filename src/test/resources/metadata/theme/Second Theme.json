@@ -1,0 +1,53 @@
+{
+  "shared": false,
+  "borderColor": {
+    "b": 250,
+    "r": 180,
+    "g": 180
+  },
+  "titleFont": {
+    "fontName": "Arial",
+    "fontSize": "20",
+    "bold": true,
+    "italic": true
+  },
+  "colors": [
+    {
+      "b": 244,
+      "r": 200,
+      "g": 200
+    },
+    {
+      "b": 255,
+      "r": 200,
+      "g": 210
+    },
+    {
+      "b": 250,
+      "r": 180,
+      "g": 180
+    },
+    {
+      "b": 250,
+      "r": 100,
+      "g": 100
+    }
+  ],
+  "defaultColor": {
+    "b": 244,
+    "r": 200,
+    "g": 200
+  },
+  "titleColor": {
+    "b": 250,
+    "r": 100,
+    "g": 100
+  },
+  "name": "Second Theme",
+  "defaultFont": {
+    "fontName": "Arial",
+    "fontSize": "14",
+    "bold": false,
+    "italic": false
+  }
+}

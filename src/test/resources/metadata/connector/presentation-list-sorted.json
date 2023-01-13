@@ -1,0 +1,25 @@
+{
+  "shared": false,
+  "connector": {
+    "SortConnector": {
+      "sourceConnectorName": "presentation-list",
+      "columns": [
+        {
+          "horizontalAlignment": "LEFT",
+          "width": 0,
+          "verticalAlignment": "TOP",
+          "columnName": "name"
+        }
+      ],
+      "pluginId": "SortConnector",
+      "sortMethods": [
+        {
+          "customOrder": [],
+          "ascending": true,
+          "type": "STRING_ALPHA_CASE_INSENSITIVE"
+        }
+      ]
+    }
+  },
+  "name": "presentation-list-sorted"
+}
