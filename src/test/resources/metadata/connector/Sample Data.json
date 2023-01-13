@@ -1,0 +1,10 @@
+{
+  "shared": false,
+  "connector": {
+    "SampleDataConnector": {
+      "pluginId": "SampleDataConnector",
+      "rowCount": 100
+    }
+  },
+  "name": "Sample Data"
+}

@@ -1,0 +1,11 @@
+{
+  "shared": false,
+  "connector": {
+    "SqlConnector": {
+      "pluginId": "SqlConnector",
+      "databaseConnectionName": "SteelWheels",
+      "sql": "select coalesce(territory, \u0027UNKNOWN\u0027) as territory, count(*) as cnt from customer_w_ter group by territory order by 1 asc; "
+    }
+  },
+  "name": "territories"
+}

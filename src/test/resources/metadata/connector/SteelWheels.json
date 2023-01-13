@@ -1,0 +1,11 @@
+{
+  "shared": false,
+  "connector": {
+    "SqlConnector": {
+      "pluginId": "SqlConnector",
+      "databaseConnectionName": "SteelWheels",
+      "sql": "SELECT customernumber, customername, contactlastname, contactfirstname, phone, addressline1, addressline2, city, state, postalcode, country, salesrepemployeenumber, creditlimit FROM customers"
+    }
+  },
+  "name": "SteelWheels"
+}

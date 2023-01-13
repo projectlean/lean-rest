@@ -1,0 +1,9 @@
+{
+  "shared": false,
+  "connector": {
+    "MetadataPresentationsConnector": {
+      "pluginId": "MetadataPresentationsConnector"
+    }
+  },
+  "name": "presentation-list"
+}

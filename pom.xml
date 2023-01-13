@@ -5,7 +5,7 @@
 
     <groupId>org.lean</groupId>
     <artifactId>lean-rest</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>lean-rest</name>
@@ -14,10 +14,11 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
-        <lean.version>0.0.12-SNAPSHOT</lean.version>
-        <hop.version>2.1.0-SNAPSHOT</hop.version>
-        <jersey.version>3.0.4</jersey.version>
+        <lean.version>0.0.13-SNAPSHOT</lean.version>
+        <hop.version>2.3.0-SNAPSHOT</hop.version>
+        <jersey.version>3.1.0</jersey.version>
         <jetty.version>11.0.9</jetty.version>
+        <jackson.version>2.14.1</jackson.version>
     </properties>
 
     <dependencies>
@@ -46,23 +47,23 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
         <!-- keep last, dependency order matters for Jetty -->
-        <dependency>
-            <groupId>org.lean</groupId>
-            <artifactId>lean-engine</artifactId>
-            <version>${lean.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>java.servlet</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.apache.hop</groupId>
             <artifactId>hop-core</artifactId>
@@ -103,10 +104,21 @@
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
         </dependency>
+
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.13.3</version>
+            <groupId>org.lean</groupId>
+            <artifactId>lean-engine</artifactId>
+            <version>${lean.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>java.servlet</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
