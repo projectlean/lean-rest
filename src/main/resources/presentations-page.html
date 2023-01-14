@@ -23,6 +23,7 @@
             padding: 8px 10px;
             text-decoration: none;
             font-size: 12px;
+            border-color: #111111;
         }
 
         /* Change the color of links on hover */
@@ -44,7 +45,11 @@
 <body>
 <div class="topNavigation">
     <a class="active" href="/lean/render/main">Home</a>
-    <a href="#about">About</a>
+    <a id="zoomIn" href="#ZoomIn">Zoom in</a>
+    <a id="zoomOut" href="#ZoomOut">Zoom out</a>
+    <a id="zoom100" href="#Zoom100">Zoom 100%</a>
+    <a id="previousPage" href="#previousPage">Previous page</a>
+    <a id="nextPage" href="#nextPage">Next page</a>
 </div>
 <canvas
         id="svgCanvas"
@@ -60,6 +65,8 @@
     let lookupResults = [];
     let scale;
     let zoom = 1.0;
+    let activePage = parseInt("%PAGE_NUMBER_0%");
+    let numberOfPages;
 
     $(document).ready(installHandlers());
 
@@ -71,6 +78,7 @@
         rect = canvas.getBoundingClientRect();
 
         initialize();
+        checkPages();
         loadDrawSvg();
 
         // Track the mouse movements and clicks
@@ -85,6 +93,25 @@
                 handleMouseLeftClickActions(e);
             }
         });
+
+        $("#zoomIn").mousedown((e) => {
+            zoom *= 1.1;
+            drawSvg();
+        });
+        $("#zoomOut").mousedown((e) => {
+            zoom /= 1.1;
+            drawSvg();
+        });
+        $("#zoom100").mousedown((e) => {
+            zoom = 1.0;
+            drawSvg();
+        });
+        $("#nextPage").mousedown((e) => {
+            nextPage();
+        });
+        $("#previousPage").mousedown((e) => {
+            previousPage();
+        });
     }
 
     // Initialize the lean canvas, make sure it's set up for full resolution
@@ -94,7 +121,7 @@
         //
         let w = window.innerHeight;
         let y = canvas.getBoundingClientRect().y;
-        rect.height = w-y;
+        rect.height = w - y;
 
         // Scale to full resolution, not the 72dpi stuff
         //
@@ -105,6 +132,23 @@
         canvas.style.height = rect.height + "px";
         console.log("canvas size: " + canvas.width + "x" + canvas.height + ", DP-Ratio=" + devicePixelRatio);
     }
+
+    function checkPages() {
+        // Look up number of pages...
+        //
+        $.get("/lean/render/info/pages/%RENDER_ID%/", function (result, status) {
+            if (status === "success") {
+                numberOfPages = parseInt(result);
+                console.log("Number of available pages: " + numberOfPages);
+            } else {
+                numberOfPages = 1;
+            }
+
+            $("#nextPage").prop("disabled", activePage < numberOfPages - 1);
+            $("#previousPage").prop("disabled", activePage > 0);
+        });
+    }
+
 
     function loadDrawSvg() {
         image = new Image();
@@ -121,10 +165,9 @@
         let scaleY = zoom * canvas.height / (image.height * devicePixelRatio);
         scale = Math.min(scaleX, scaleY, zoom);
 
-        console.log("dpr=" + devicePixelRatio + ", canvas=" + canvas.width + "x" + canvas.height + ", " +
-            "image=" + image.width + "x" + image.height + ", " +
-            "scaleX=" + scaleX + ", scaleY=" + scaleY + ", " +
-            "scale=" + scale);
+        // gc.strokeStyle = '#fff';
+        gc.fillStyle = '#fff';
+        gc.fillRect(0, 0, canvas.width, canvas.height);
         gc.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width * scale, image.height * scale);
     }
 
@@ -284,6 +327,23 @@
             }
         });
     }
+
+    function nextPage() {
+        let nextPage = activePage + 1;
+        if (nextPage>=numberOfPages) {
+            return;
+        }
+        window.open("/lean/render/page/%RENDER_ID%/HTML/" + nextPage + "/", "_self");
+    }
+
+    function previousPage() {
+        let prevPage = activePage - 1;
+        if (prevPage<0) {
+            return;
+        }
+        window.open("/lean/render/page/%RENDER_ID%/HTML/" + prevPage + "/", "_self");
+    }
+
 
     function correctScale(value) {
         return value / scale;
