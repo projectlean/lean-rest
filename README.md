@@ -5,13 +5,19 @@ This project provides a REST api for the [Lean engine](https://github.com/projec
 ## Steps to get going locally 
 
 * build the lean engine
-* run `mvn clean install jetty:run -DCONFIG_PATH=<PATH_TO_THIS_REPOSITORY>/src/main/resources/` to use the leanrest.properties file 
+* run `mvn clean install jetty:run -DCONFIG_PATH=<PATH_TO_THIS_REPOSITORY>/src/test/resources/` to use the leanrest.properties file
+* For example: `mvn clean install jetty:run -DCONFIG_PATH=src/test/resources/`
 * To debug set variable `MAVEN_OPTS` to `-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005` and then attach your debugger to this port.
 
 ## Build and run the container (experimental)
 
 * build the container image: `docker build . -t lean-rest` 
-* run the container: `docker run -p 8080:808 -v <PATH_TO_LEAN_ENGINE_REPOSITORY>/src/test/resources/presentations:/reports lean-rest`
+* run the container: `docker run -p 8080:8080 -v <PATH_TO_THIS_REPOSITORY>/src/test/resources/:/lean lean-rest`
+* For example:
+
+```
+docker run -p 8080:8080 -v `(pwd)`/src/test/resources/:/lean/ lean
+```
 
 
 ## Use the REST API 
